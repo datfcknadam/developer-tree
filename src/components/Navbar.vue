@@ -1,21 +1,17 @@
 <template>
   <div>
     <v-toolbar>
-        <v-toolbar-title>DevTree</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" class="toolbar-title">DevTree</router-link>
+      </v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-toolbar-items>
-        <router-link to='/back-page'>
-          <v-btn text>Backend</v-btn>
-        </router-link>
-        <router-link to='/front-page'>
-          <v-btn text>Fronted</v-btn>
-        </router-link>
-        <router-link to='/dev-page'>
-          <v-btn text>DevOps</v-btn>
-        </router-link>
+        <v-btn to="/back-page" text>Backend</v-btn>
+        <v-btn to="/front-page" text>Fronted</v-btn>
+        <v-btn to="/dev-page" text>DevOps</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    </div>
+  </div>
 </template>
 
 <style scoped>
