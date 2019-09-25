@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar>
+    <v-app-bar id="navbar">
       <v-toolbar-title>
         <router-link to="/" class="toolbar-title">DevTree</router-link>
       </v-toolbar-title>
@@ -10,7 +10,7 @@
         <v-btn to="/front-page" text>Fronted</v-btn>
         <v-btn to="/dev-page" text>DevOps</v-btn>
       </v-toolbar-items>
-    </v-toolbar>
+    </v-app-bar>
   </div>
 </template>
 
