@@ -15,38 +15,45 @@
         </template>
         <template v-slot:icon>
           <v-avatar>
-            <img :src="serverUrl + item.image">
+            <img :src="serverUrl + item.image" />
           </v-avatar>
         </template>
-        <v-card v-for="child in item.children"
-          max-height="200"
-          :key="child.name"
-        >
-        <v-list-item-avatar width="auto" v-if="child.image" rounded>
-          <img :src="serverUrl + child.image">
-        </v-list-item-avatar>
-          <v-card-title v-text="child.name" class="headline"/>
-          <v-card-text v-text="child.name"/>
-        </v-card>
+        <v-col v-for="(child, i) in item.children" :key="i">
+          <v-card max-height="200">
+            <v-list-item three-line>
+              <v-list-item-content class="align-self-start">
+                <v-card-title v-text="child.name" />
+                <v-divider class="mx-2" :inset="inset"></v-divider>
+                <v-card-text v-text="child.name" />
+              </v-list-item-content>
+              <v-list-item-avatar tile width="auto" v-if="child.image" rounded>
+                <img :src="serverUrl + child.image" />
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-col>
       </v-timeline-item>
     </v-timeline>
   </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-  name: 'FrontPage',
+  name: "FrontPage",
   mounted() {
-    this.$store.dispatch('tree/loadFront');
+    this.$store.dispatch("tree/loadFront");
   },
-  computed: mapState('tree', ['front', 'serverUrl']),
+  computed: mapState("tree", ["front", "serverUrl"])
 };
 </script>
 
 <style>
-.v-timeline{
-  flex-direction: row;
+.v-card__title {
+  padding: 0;
+}
+.v-card__text {
+  padding: 0;
 }
 </style>

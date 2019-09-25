@@ -1,124 +1,123 @@
 {
-    "name": "frontend",
-    "type": "whole",
-    "children": [{
-        "name": "HTML",
-        "type": "main",
-        "image": "assets/image/html.png",
-        "children": [{
-            "name": "Basics",
-            "type": "part",
-            "image": "assets/image/basic.png"
-          },
-          {
-            "name": "HTML5",
-            "type": "part",
-            "image": "assets/image/html5.png"
-          }
-        ]
-      },
-      {
-        "name": "CSS",
-        "type": "basis",
-        "image": "assets/image/css.png",
-        "children": [{
-            "name": "SASS",
-            "type": "part",
-            "image": "assets/image/sass.png"
-          },
-          {
-            "name": "LESS",
-            "type": "additional",
-            "image": "assets/image/less.png"
-          }
-        ]
-      },
-      {
-        "name": "Basic of JavaScript",
-        "type": "basis",
-        "image": "assets/image/js.png",
-        "children": [{
-            "name": "Syntax and Basic Constructs",
-            "type": "part"
-          },
-          {
-            "name": "Learn DOM manipulation",
-            "type": "additional"
-          },
-          {
-            "name": "Learn fetch API / Ajax (XHR)",
-            "type": "additional"
-          },
-          {
-            "name": "ES6+ and modular JavaScript",
-            "type": "additional"
-          }
+  "name": "frontend",
+  "type": "whole",
+  "children": [{
+      "name": "HTML",
+      "type": "main",
+      "image": "assets/image/html.png",
+      "children": [{
+          "name": "Basics",
+          "type": "part"
+        },
+        {
+          "name": "HTML5",
+          "type": "part",
+          "image": "assets/image/html5.png"
+        }
+      ]
+    },
+    {
+      "name": "CSS",
+      "type": "basis",
+      "image": "assets/image/css.png",
+      "children": [{
+          "name": "SASS",
+          "type": "part",
+          "image": "assets/image/sass.png"
+        },
+        {
+          "name": "LESS",
+          "type": "additional",
+          "image": "assets/image/less.png"
+        }
+      ]
+    },
+    {
+      "name": "Basic of JavaScript",
+      "type": "basis",
+      "image": "assets/image/js.png",
+      "children": [{
+          "name": "Syntax and Basic Constructs",
+          "type": "part"
+        },
+        {
+          "name": "Learn DOM manipulation",
+          "type": "additional"
+        },
+        {
+          "name": "Learn fetch API / Ajax (XHR)",
+          "type": "additional"
+        },
+        {
+          "name": "ES6+ and modular JavaScript",
+          "type": "additional"
+        }
 
-        ]
-      },
-      {
-        "name": "Package Manager",
-        "type": "whole",
-        "image": "assets/image/package_manager.png",
-        "children": [{
-            "name": "NPM",
-            "type": "part",
-            "image": "assets/image/npm.png"
-          },
-          {
-            "name": "YARN",
-            "type": "additional",
-            "image": "assets/image/yarn.png"
-          }
-        ]
-      },
-      {
-        "name": "CSS Frameworks",
-        "type": "whole",
-        "image": "assets/image/css.png",
-        "children": [{
-            "name": "SASS",
-            "type": "part",
-            "image": "assets/image/sass.png"
-          },
-          {
-            "name": "LESS",
-            "type": "additional",
-            "image": "assets/image/less.png"
-          }
-        ]
-      },
-      {
-        "name": "CSS",
-        "type": "whole",
-        "image": "assets/image/css.png",
-        "children": [{
-            "name": "SASS",
-            "type": "part",
-            "image": "assets/image/sass.png"
-          },
-          {
-            "name": "LESS",
-            "type": "additional",
-            "image": "assets/image/less.png"
-          }
-        ]
-      },
-      {
-        "name": "CSS",
-        "type": "whole",
-        "image": "assets/image/css.png",
-        "children": [{
-            "name": "SASS",
-            "type": "part",
-            "image": "assets/image/sass.png"
-          },
-          {
-            "name": "LESS",
-            "type": "additional",
-            "image": "assets/image/less.png"
-          }
-        ]
-      }
-    ]
+      ]
+    },
+    {
+      "name": "Package Manager",
+      "type": "whole",
+      "image": "assets/image/package_manager.png",
+      "children": [{
+          "name": "NPM",
+          "type": "part",
+          "image": "assets/image/npm.png"
+        },
+        {
+          "name": "YARN",
+          "type": "additional",
+          "image": "assets/image/yarn.png"
+        }
+      ]
+    },
+    {
+      "name": "CSS Frameworks",
+      "type": "whole",
+      "image": "assets/image/css.png",
+      "children": [{
+          "name": "SASS",
+          "type": "part",
+          "image": "assets/image/sass.png"
+        },
+        {
+          "name": "LESS",
+          "type": "additional",
+          "image": "assets/image/less.png"
+        }
+      ]
+    },
+    {
+      "name": "CSS",
+      "type": "whole",
+      "image": "assets/image/css.png",
+      "children": [{
+          "name": "SASS",
+          "type": "part",
+          "image": "assets/image/sass.png"
+        },
+        {
+          "name": "LESS",
+          "type": "additional",
+          "image": "assets/image/less.png"
+        }
+      ]
+    },
+    {
+      "name": "CSS",
+      "type": "whole",
+      "image": "assets/image/css.png",
+      "children": [{
+          "name": "SASS",
+          "type": "part",
+          "image": "assets/image/sass.png"
+        },
+        {
+          "name": "LESS",
+          "type": "additional",
+          "image": "assets/image/less.png"
+        }
+      ]
+    }
+  ]
 }
