@@ -7,6 +7,7 @@ import BackPage from './pages/BackPage.vue';
 import FrontPage from './pages/FrontPage.vue';
 import MainPage from './pages/MainPage.vue';
 import DevPage from './pages/DevPage.vue';
+import store from './store/index';
 
 Vue.config.productionTip = false;
 
@@ -29,5 +30,6 @@ const router = new VueRouter({
 new Vue({
   vuetify,
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
