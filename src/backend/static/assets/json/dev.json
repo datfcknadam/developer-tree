@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "dev",
   "type": "whole",
   "children": [{
       "name": "HTML",

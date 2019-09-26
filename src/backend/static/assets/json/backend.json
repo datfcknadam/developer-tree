@@ -1,0 +1,104 @@
+{
+  "name": "backend",
+  "type": "whole",
+  "children": [{
+      "name": "Pick a Language",
+      "type": "main",
+      "color": "yellow",
+      "description": "There are myriads of different options",
+      "children": [{
+          "name": "Basics",
+          "type": "part"
+        },
+        {
+          "name": "HTML5",
+          "type": "part"
+        }
+      ]
+    },
+    {
+      "name": "Scripting Language",
+      "type": "main",
+      "color": "#a5f15f",
+      "children": [{
+          "name": "Python",
+          "type": "favorite",
+          "image": "assets/image/backend/python.png"
+        },
+        {
+          "name": "Ruby",
+          "type": "additional",
+          "image": "assets/image/backend/ruby.png"
+        },
+        {
+          "name": "PHP",
+          "type": "additional",
+          "image": "assets/image/backend/php.png"
+        },
+        {
+          "name": "NodeJS and after TypeScript <- (optional)",
+          "type": "additional",
+          "image": "assets/image/backend/node.png"
+        }
+      ]
+    },
+    {
+      "name": "Functional Language",
+      "type": "main",
+      "color": "#a5f15f",
+      "children": [{
+          "name": "Elixir",
+          "type": "part",
+          "image": "assets/image/backend/elixir.png"
+        },
+        {
+          "name": "Scala",
+          "type": "additional",
+          "image": "assets/image/backend/scala.png"
+        },
+        {
+          "name": "Erlang",
+          "type": "additional",
+          "image": "assets/image/backend/erlang.png"
+        },
+        {
+          "name": "Clojure",
+          "type": "additional",
+          "image": "assets/image/backend/clojure.png"
+        },
+        {
+          "name": "Haskell",
+          "type": "additional",
+          "image": "assets/image/backend/haskell.png"
+        }
+      ]
+    },
+    {
+      "name": "Other Options",
+      "type": "whole",
+      "color": "#a5f15f",
+      "children": [{
+          "name": "Golang",
+          "type": "favorite",
+          "image": "assets/image/backend/golang.png"
+        },
+        {
+          "name": "Rust",
+          "type": "favorite",
+          "image": "assets/image/backend/rust.png"
+        }
+      ]
+    },
+    {
+      "name": "Practice what you learn!",
+      "type": "whole",
+      "color": "yelow",
+      "description": "Excercise and make some command line applications with your picked language",
+      "children": [{
+          "name": "Sample Ideas",
+          "description": "Implement some code that you use e.g 'ls'... and practice, practice, practice"
+        }
+      ]
+    }
+  ]
+}
