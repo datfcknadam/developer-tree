@@ -1,6 +1,6 @@
 <template>
   <v-container id="frontend">
-    <h1>FRONTEND</h1>
+    <h1>FRONT-END</h1>
     <DeveloperTree :items="front.children"/>
     <h1>Keep learning!</h1>
   </v-container>
