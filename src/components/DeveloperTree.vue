@@ -7,7 +7,9 @@
       large
       :color="item.color"
       :key="i"
-      :id="'timeline' + i"
+      :elemId="item.name"
+      :id="item.name"
+      :ref="`TLItem_${i}`"
     >
       <template v-slot:opposite>
         <span v-text="item.name"></span>
@@ -20,8 +22,7 @@
         </v-avatar>
       </template>
       <v-col v-for="(child, i) in item.children" :key="i">
-        <div class="arrow">
-      </div>
+      <div class="arrow" :style="setStyle(i)" ></div>
         <v-card :class="child.type" max-height="200">
           <v-list-item three-line>
             <v-list-item-content class="align-self-start">
@@ -54,6 +55,18 @@ export default {
   },
   computed: {
     ...mapState('tree', ['serverUrl']),
+  },
+  methods: {
+    setStyle(key) {
+      const cords = [];
+      Object.values(this.$refs).forEach((item) => {
+        cords.push(item[key].$el.getBoundingClientRect());
+      });
+      console.log(cords);
+    },
+  },
+  mounted() {
+    console.log(Object.values(this.$refs));
   },
 };
 
