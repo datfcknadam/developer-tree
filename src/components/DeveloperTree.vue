@@ -7,6 +7,7 @@
       large
       :color="item.color"
       :key="i"
+      :id="'timeline' + i"
     >
       <template v-slot:opposite>
         <span v-text="item.name"></span>
@@ -19,9 +20,8 @@
         </v-avatar>
       </template>
       <v-col v-for="(child, i) in item.children" :key="i">
-        <div class="img-control">
-        <img src="../../public/arrow.png">
-        </div>
+        <div class="arrow">
+      </div>
         <v-card :class="child.type" max-height="200">
           <v-list-item three-line>
             <v-list-item-content class="align-self-start">
@@ -52,18 +52,20 @@ export default {
       type: Array,
     },
   },
-  computed: mapState('tree', ['serverUrl']),
+  computed: {
+    ...mapState('tree', ['serverUrl']),
+  },
 };
 
 </script>
 
 <style>
 @media screen and (max-width: 500px) {
-  .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
+.v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
 .v-timeline-item:nth-child(even):not(.v-timeline-item--after)
 .v-timeline-item__body, .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
 .v-timeline-item--before .v-timeline-item__body {
-      max-width: calc(50% - 48px);
+  max-width: calc(50% - 48px);
 }
 .theme--light.v-card {
   max-width: calc(5vw + 30vh);
@@ -95,7 +97,7 @@ img{
   padding: 0;
 }
 }
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 500px) {
 .v-card {
   max-width: calc(15vw);
 }
@@ -119,20 +121,45 @@ img{
   padding-bottom: 0px;
 }
 
-.favorite {
-  background: #4700f387;
-}
-
 .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
 .v-timeline-item:nth-child(even):not(.v-timeline-item--after)
 .v-timeline-item__body, .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
 .v-timeline-item--before .v-timeline-item__body {
-      max-width: calc(20% - 48px);
-}
-  .v-timeline-item:nth-child(2n) {
-    position: relative;
-    left: 30%;
-  }
+  max-width: calc(20% - 48px);
 }
 
+.v-timeline-item:nth-child(even) {
+  position: relative;
+  left: 30%;
+}
+}
+.arrow {
+  position: relative;
+  margin: 0px auto;
+  }
+  .arrow:before,
+  .arrow:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right: 0;
+    }
+.arrow {
+    width: 68px;
+    height: 2px;
+    background: black;
+  }
+  .arrow:after {
+    top: -7px;
+    right: -7px;
+    width: 0px;
+    height: 0px;
+    border-left-color: black;
+    }
+.v-card.v-sheet.theme--light.favorite {
+  background: #4700f387;
+}
   </style>
