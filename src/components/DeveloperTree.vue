@@ -68,16 +68,35 @@ export default {
       Object.values(item[0].$children).forEach((child) => {
         if (child.$el.className !== 'v-avatar') {
           const cordsChild = child.$el.getBoundingClientRect();
+          const isLeftChild = cordsChild.x + cordsChild.width < centerParent.x;
           const sideChild = {
-            x: cordsChild.left,
+            x: cordsChild.x,
             y: cordsChild.y + cordsChild.height / 2,
           };
-          const incline = Math.tan((centerParent.y - sideChild.y) / (centerParent.x - sideChild.x));
+          const start = {
+            x: centerParent.x,
+            y: centerParent.y,
+          };
+          const end = {
+            x: isLeftChild ? cordsChild.x + cordsChild.width : cordsParent.x,
+            y: cordsChild.y + cordsChild.height / 2,
+          };
+
+          // const incline = Math.tan((centerParent.y - sideChild.y) / (centerParent.x - sideChild.x));
+          const incline = Math.tan(((start.x - end.x) / (start.y - end.y)));
+          /* const scalar = start.x * end.x + start.y * end.y;
+          const mod = (p) => Math.sqrt(p.x ** 2 + p.y ** 2);
+          const m = mod(start) * mod(end);
+          const angle = Math.acos(scalar / m);
+          const incline = angle; */
           Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
-              arrow.style.position = 'absolute';
+              arrow.style.left = `${start.x}px`;
+              arrow.style.top = `${start.y}px`;
+              arrow.style.position = 'fixed';
               arrow.style.transform = `rotate(${incline}rad)`;
-              console.log(`rotate(${incline}deg)`);
+
+              console.log(`rotate(${incline}rad)`);
             }
           });
         }
@@ -186,6 +205,9 @@ export default {
   width: 68px;
   height: 2px;
   background: black;
+  position: relative;
+  top: 20px;
+  right: -32px;
 }
 .arrow:after {
   top: -7px;
