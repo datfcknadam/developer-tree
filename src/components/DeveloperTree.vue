@@ -22,13 +22,15 @@
         </v-avatar>
       </template>
       <v-col v-for="(child, i) in item.children" :key="i">
-        <div class="arrow"></div>
         <v-card :class="child.type" max-height="200">
+          <div class="arrow"></div>
           <v-list-item three-line>
             <v-list-item-content class="align-self-start">
               <v-card-title v-text="child.name" />
               <v-divider v-if="child.description" class="mx-2" />
-              <v-card-text v-if="child.description" class="font-italic" v-text="child.description" />
+              <v-card-text v-if="child.description"
+                class="font-italic"
+                v-text="child.description" />
             </v-list-item-content>
             <v-list-item-avatar v-if="child.image" tile width="auto">
               <img :src="serverUrl + child.image" />
@@ -41,29 +43,49 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  name: "DeveloperTree",
+  name: 'DeveloperTree',
   props: {
     items: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   computed: {
-    ...mapState("tree", ["serverUrl"])
+    ...mapState('tree', ['serverUrl']),
   },
   methods: {
-    setStyle(key) {
-      const cords = [];
-    }
   },
   mounted() {
-    Object.values(this.$refs).forEach(item => {
-      const cords = item[0].$el.getBoundingClientRect();
-      console.log(cords.top);
+    Object.values(this.$refs).forEach((item) => {
+      const cordsParent = item[0].$el.getBoundingClientRect();
+      const centerParent = {
+        x: cordsParent.x + cordsParent.width / 2,
+        y: cordsParent.y + cordsParent.height / 2,
+      };
+
+      Object.values(item[0].$children).forEach((child) => {
+        if (child.$el.className !== 'v-avatar') {
+          const cordsChild = child.$el.getBoundingClientRect();
+          const sideChild = {
+            x: cordsChild.left,
+            y: cordsChild.y + cordsChild.height / 2,
+          };
+          const incline = Math.tan((centerParent.y - sideChild.y) / (centerParent.x - sideChild.x));
+          Object.values(child.$el.children).forEach((arrow) => {
+            if (arrow.className === 'arrow') {
+              arrow.style.position = 'absolute';
+              arrow.style.transform = `rotate(${incline}rad)`;
+              console.log(`rotate(${incline}deg)`);
+            }
+          });
+        }
+      });
     });
-  }
+
+    console.log(this.$refs);
+  },
 };
 </script>
 
@@ -75,7 +97,7 @@ export default {
   .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
     .v-timeline-item--before
     .v-timeline-item__body {
-    max-width: calc(50% - 48px);
+    max-width: calc(50% - 329px);
   }
   .theme--light.v-card {
     max-width: calc(5vw + 30vh);
@@ -111,7 +133,9 @@ export default {
   .v-card {
     max-width: calc(15vw);
   }
-
+  .v-card .v-sheet .theme--light{
+    margin-right: 0px;
+  }
   .v-card__title {
     word-break: keep-all;
     position: relative;
@@ -137,12 +161,11 @@ export default {
   .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
     .v-timeline-item--before
     .v-timeline-item__body {
-    max-width: calc(20% - 48px);
+      max-width: calc(50% - 329px);
   }
 
-  .v-timeline-item:nth-child(even) {
-    position: relative;
-    left: 30%;
+  .v-timeline-item:nth-child(even){
+    padding-left: 30%;
   }
 }
 .arrow {
