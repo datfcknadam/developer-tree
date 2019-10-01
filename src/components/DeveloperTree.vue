@@ -23,6 +23,7 @@
       </template>
       <v-col v-for="(child, i) in item.children" :key="i">
         <v-card :class="child.type" max-height="200">
+          <div class="arrow"></div>
           <v-list-item three-line>
             <v-list-item-content class="align-self-start">
               <v-card-title v-text="child.name" />
@@ -58,6 +59,9 @@ export default {
     radToDeg(rad) {
       return (rad * 180) / Math.PI;
     },
+    hypotenus(a, b) {
+      return Math.sqrt(a ** 2 + b ** 2);
+    },
   },
   mounted() {
     Object.values(this.$refs).forEach((item) => {
@@ -68,8 +72,8 @@ export default {
       };
 
       Object.values(item[0].$children).forEach((child) => {
-        const hypotenuse = (a, b) => Math.sqrt(a ** 2 + b ** 2);
         if (child.$el.className !== 'v-avatar') {
+          console.log(child.$el);
           const cordsChild = child.$el.getBoundingClientRect();
           const isLeftChild = cordsChild.right > centerParent.x;
           /* const sideChild = {
@@ -84,31 +88,29 @@ export default {
             x: isLeftChild ? cordsChild.left : cordsChild.right,
             y: cordsChild.top + cordsChild.height / 2,
           };
-          const incline = Math.tan((start.x - end.x) / (start.y - end.y));
-          const degIncline = this.radToDeg(incline);
 
-          const arrow = document.createElement('div');
-          arrow.setAttribute('class', 'arrow');
-          document.body.append(arrow);
-          arrow.style.transform = `rotate(${degIncline}deg)`;
-          arrow.style.position = 'absolute';
-          arrow.style.left = `${start.x}px`;
-          arrow.style.top = `${start.y}px`;
-          arrow.style.width = `${hypotenuse((start.x - end.x), (start.y - end.y))}px`;
+          const lineA = start.x - end.x;
+          const lineB = start.y - end.y;
+          const lineC = this.hypotenus(lineA, lineB);
+
+          const px = isLeftChild ? -20 : 250;
+          const incline = Math.asin(lineB / lineC);
+          const degIncline = this.radToDeg(incline);
+          console.log(incline, (start.x - end.x), (start.y - end.y));
           /*  const incline = Math.tan(((start.x - end.x) / (start.y - end.y))); */
           /* const scalar = start.x * end.x + start.y * end.y;
           const mod = (p) => Math.sqrt(p.x ** 2 + p.y ** 2);
           const m = mod(start) * mod(end);
           const angle = Math.acos(scalar / m);
           const incline = angle; */
-          /* Object.values(child.$el.children).forEach((arrow) => {
+          Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
-              arrow.style.transform = `rotate(${degIncline}deg)`;
+              arrow.style.transform = `rotate(${180 - 9 + degIncline}deg)`;
               arrow.style.left = `${start.x - end.x + px}px`;
-              arrow.style.top = `${start.y - end.y + 30}px`;
-              arrow.style.width = `${start.y - end.y + start.x - end.x}px`;
+              arrow.style.top = `${start.y - end.y + 35}px`;
+              arrow.style.width = `${lineC}px`;
             }
-          }); */
+          });
         }
       });
     });
@@ -198,8 +200,15 @@ export default {
   }
 }
 .arrow {
+  position: relative;
+  margin: 0px;
+}
+.arrow {
   height: 2px;
   background: black;
+  position: relative;
+  top: 20px;
+  right: -32px;
 }
 .v-card.v-sheet.theme--light.favorite {
   background: #4700f387;
