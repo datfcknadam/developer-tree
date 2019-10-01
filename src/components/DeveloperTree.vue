@@ -84,7 +84,6 @@ export default {
             x: isLeftChild ? cordsChild.left : cordsChild.right,
             y: cordsChild.top + cordsChild.height / 2,
           };
-          console.log(centerParent);
           const incline = Math.tan((start.x - end.x) / (start.y - end.y));
           const degIncline = this.radToDeg(incline);
 
