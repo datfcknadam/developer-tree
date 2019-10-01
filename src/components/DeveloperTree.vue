@@ -23,7 +23,6 @@
       </template>
       <v-col v-for="(child, i) in item.children" :key="i">
         <v-card :class="child.type" max-height="200">
-          <div class="arrow"></div>
           <v-list-item three-line>
             <v-list-item-content class="align-self-start">
               <v-card-title v-text="child.name" />
@@ -56,49 +55,61 @@ export default {
     ...mapState('tree', ['serverUrl']),
   },
   methods: {
+    radToDeg(rad) {
+      return (rad * 180) / Math.PI;
+    },
   },
   mounted() {
     Object.values(this.$refs).forEach((item) => {
       const cordsParent = item[0].$el.getBoundingClientRect();
       const centerParent = {
-        x: cordsParent.x + cordsParent.width / 2,
-        y: cordsParent.y + cordsParent.height / 2,
+        x: cordsParent.left + cordsParent.width / 2,
+        y: cordsParent.top + cordsParent.height / 2,
       };
 
       Object.values(item[0].$children).forEach((child) => {
+        const hypotenuse = (a, b) => Math.sqrt(a ** 2 + b ** 2);
         if (child.$el.className !== 'v-avatar') {
           const cordsChild = child.$el.getBoundingClientRect();
-          const isLeftChild = cordsChild.x + cordsChild.width < centerParent.x;
-          const sideChild = {
-            x: cordsChild.x,
+          const isLeftChild = cordsChild.right > centerParent.x;
+          /* const sideChild = {
+            x: cordsChild.x + cordsChild.width / 2,
             y: cordsChild.y + cordsChild.height / 2,
-          };
+          }; */
           const start = {
             x: centerParent.x,
             y: centerParent.y,
           };
           const end = {
-            x: isLeftChild ? cordsChild.x + cordsChild.width : cordsParent.x,
-            y: cordsChild.y + cordsChild.height / 2,
+            x: isLeftChild ? cordsChild.left : cordsChild.right,
+            y: cordsChild.top + cordsChild.height / 2,
           };
+          console.log(centerParent);
+          const incline = Math.tan((start.x - end.x) / (start.y - end.y));
+          const degIncline = this.radToDeg(incline);
 
-          // const incline = Math.tan((centerParent.y - sideChild.y) / (centerParent.x - sideChild.x));
-          const incline = Math.tan(((start.x - end.x) / (start.y - end.y)));
+          const arrow = document.createElement('div');
+          arrow.setAttribute('class', 'arrow');
+          document.body.append(arrow);
+          arrow.style.transform = `rotate(${degIncline}deg)`;
+          arrow.style.position = 'absolute';
+          arrow.style.left = `${start.x}px`;
+          arrow.style.top = `${start.y}px`;
+          arrow.style.width = `${hypotenuse((start.x - end.x), (start.y - end.y))}px`;
+          /*  const incline = Math.tan(((start.x - end.x) / (start.y - end.y))); */
           /* const scalar = start.x * end.x + start.y * end.y;
           const mod = (p) => Math.sqrt(p.x ** 2 + p.y ** 2);
           const m = mod(start) * mod(end);
           const angle = Math.acos(scalar / m);
           const incline = angle; */
-          Object.values(child.$el.children).forEach((arrow) => {
+          /* Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
-              arrow.style.left = `${start.x}px`;
-              arrow.style.top = `${start.y}px`;
-              arrow.style.position = 'fixed';
-              arrow.style.transform = `rotate(${incline}rad)`;
-
-              console.log(`rotate(${incline}rad)`);
+              arrow.style.transform = `rotate(${degIncline}deg)`;
+              arrow.style.left = `${start.x - end.x + px}px`;
+              arrow.style.top = `${start.y - end.y + 30}px`;
+              arrow.style.width = `${start.y - end.y + start.x - end.x}px`;
             }
-          });
+          }); */
         }
       });
     });
@@ -188,33 +199,8 @@ export default {
   }
 }
 .arrow {
-  position: relative;
-  margin: 0px;
-}
-.arrow:before,
-.arrow:after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 8px solid transparent;
-  border-right: 0;
-}
-.arrow {
-  width: 68px;
   height: 2px;
   background: black;
-  position: relative;
-  top: 20px;
-  right: -32px;
-}
-.arrow:after {
-  top: -7px;
-  right: -7px;
-  width: 0px;
-  height: 0px;
-  border-left-color: black;
 }
 .v-card.v-sheet.theme--light.favorite {
   background: #4700f387;
