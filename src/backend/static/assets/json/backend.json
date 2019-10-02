@@ -34,11 +34,6 @@
           "name": "PHP",
           "type": "additional",
           "image": "assets/image/backend/php.png"
-        },
-        {
-          "name": "NodeJS and after TypeScript <- (optional)",
-          "type": "additional",
-          "image": "assets/image/backend/node.png"
         }
       ]
     },
@@ -55,21 +50,6 @@
           "name": "Scala",
           "type": "additional",
           "image": "assets/image/backend/scala.png"
-        },
-        {
-          "name": "Erlang",
-          "type": "additional",
-          "image": "assets/image/backend/erlang.png"
-        },
-        {
-          "name": "Clojure",
-          "type": "additional",
-          "image": "assets/image/backend/clojure.png"
-        },
-        {
-          "name": "Haskell",
-          "type": "additional",
-          "image": "assets/image/backend/haskell.png"
         }
       ]
     },

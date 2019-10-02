@@ -1,45 +1,60 @@
 <template>
-  <v-timeline>
-    <v-timeline-item
-      dense
-      v-for="(item, i) in items"
-      :class="item.type"
-      large
-      :color="item.color"
-      :key="i"
-      :elemId="item.name"
-      :id="item.name"
-      :ref="`TLItem_${i}`"
-    >
-      <template v-slot:opposite>
-        <span v-text="item.name"></span>
-        <br />
-        <span class="font-italic" v-text="item.description"></span>
-      </template>
-      <template v-if="item.image" v-slot:icon>
-        <v-avatar>
-          <img :src="serverUrl + item.image" />
-        </v-avatar>
-      </template>
-      <v-col v-for="(child, i) in item.children" :key="i">
-        <v-card :class="child.type" max-height="200">
-          <div class="arrow"></div>
-          <v-list-item three-line>
-            <v-list-item-content class="align-self-start">
-              <v-card-title v-text="child.name" />
-              <v-divider v-if="child.description" class="mx-2" />
-              <v-card-text v-if="child.description"
-                class="font-italic"
-                v-text="child.description" />
-            </v-list-item-content>
-            <v-list-item-avatar v-if="child.image" tile width="auto">
-              <img :src="serverUrl + child.image" />
-            </v-list-item-avatar>
-          </v-list-item>
-        </v-card>
-      </v-col>
-    </v-timeline-item>
-  </v-timeline>
+  <div>
+    <v-timeline>
+      <v-timeline-item
+        dense
+        v-for="(item, i) in items"
+        :class="item.type"
+        large
+        :color="item.color"
+        :key="i"
+        :ref="`TLItem_${i}`"
+      >
+        <template v-slot:opposite>
+          <span v-text="item.name"></span>
+          <br />
+          <span class="font-italic" v-text="item.description"></span>
+        </template>
+        <template v-if="item.image" v-slot:icon>
+          <v-avatar >
+            <img :src="serverUrl + item.image" />
+          </v-avatar>
+        </template>
+        <v-col v-for="(child, i) in item.children" :key="i">
+          <v-card :class="child.type" max-height="200">
+            <v-card v-for="(child, i) in child.children" :key="i" class="baby-child">
+              <div class="arrow"></div>
+              <v-list-item three-line>
+                <v-list-item-content class="align-self-start">
+                  <v-card-title v-text="child.name" />
+                  <v-divider v-if="child.description" class="mx-2" />
+                  <v-card-text v-if="child.description"
+                    class="font-italic"
+                    v-text="child.description" />
+                </v-list-item-content>
+                <v-list-item-avatar v-if="child.image" tile width="auto">
+                  <img :src="serverUrl + child.image" />
+                </v-list-item-avatar>
+              </v-list-item>
+            </v-card>
+            <div class="arrow"></div>
+            <v-list-item three-line>
+              <v-list-item-content class="align-self-start">
+                <v-card-title v-text="child.name" />
+                <v-divider v-if="child.description" class="mx-2" />
+                <v-card-text v-if="child.description"
+                  class="font-italic"
+                  v-text="child.description" />
+              </v-list-item-content>
+              <v-list-item-avatar v-if="child.image" tile width="auto">
+                <img :src="serverUrl + child.image" />
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-col>
+      </v-timeline-item>
+    </v-timeline>
+  </div>
 </template>
 
 <script>
@@ -56,59 +71,74 @@ export default {
     ...mapState('tree', ['serverUrl']),
   },
   methods: {
-    radToDeg(rad) {
-      return (rad * 180) / Math.PI;
-    },
-    hypotenus(a, b) {
-      return Math.sqrt(a ** 2 + b ** 2);
+    calculateLine(a, b) {
+      return a - b;
     },
   },
   mounted() {
+    const halfScreen = screen.width / 2;
+    const radToDeg = (rad) => (rad * 180) / Math.PI;
+    const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
+    const calculateLine = (a, b) => a - b;
+
     Object.values(this.$refs).forEach((item) => {
-      const cordsParent = item[0].$el.getBoundingClientRect();
+      const coordsParent = item[0].$el.getBoundingClientRect();
       const centerParent = {
-        x: cordsParent.left + cordsParent.width / 2,
-        y: cordsParent.top + cordsParent.height / 2,
+        x: coordsParent.left + coordsParent.width / 2,
+        y: coordsParent.top + coordsParent.height / 2,
       };
 
       Object.values(item[0].$children).forEach((child) => {
-        if (child.$el.className !== 'v-avatar') {
-          console.log(child.$el);
-          const cordsChild = child.$el.getBoundingClientRect();
-          const isLeftChild = cordsChild.right > centerParent.x;
-          /* const sideChild = {
-            x: cordsChild.x + cordsChild.width / 2,
-            y: cordsChild.y + cordsChild.height / 2,
-          }; */
+        if (child.$el.classList[0] === 'v-card') {
+          const coordsChild = child.$el.getBoundingClientRect();
+          const isLeftChild = coordsChild.right > centerParent.x;
           const start = {
             x: centerParent.x,
-            y: centerParent.y,
+            y: centerParent.y - 12,
           };
           const end = {
-            x: isLeftChild ? cordsChild.left : cordsChild.right,
-            y: cordsChild.top + cordsChild.height / 2,
+            x: isLeftChild ? coordsChild.left : coordsChild.right,
+            y: coordsChild.top + coordsChild.height / 2,
           };
-
           const lineA = start.x - end.x;
           const lineB = start.y - end.y;
-          const lineC = this.hypotenus(lineA, lineB);
+          const lineC = hypotenus(calculateLine(start.x, end.x), calculateLine(start.y, end.y));
 
-          const px = isLeftChild ? -20 : 250;
-          const incline = Math.asin(lineB / lineC);
-          const degIncline = this.radToDeg(incline);
-          console.log(incline, (start.x - end.x), (start.y - end.y));
-          /*  const incline = Math.tan(((start.x - end.x) / (start.y - end.y))); */
-          /* const scalar = start.x * end.x + start.y * end.y;
-          const mod = (p) => Math.sqrt(p.x ** 2 + p.y ** 2);
-          const m = mod(start) * mod(end);
-          const angle = Math.acos(scalar / m);
-          const incline = angle; */
           Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
-              arrow.style.transform = `rotate(${180 - 9 + degIncline}deg)`;
-              arrow.style.left = `${start.x - end.x + px}px`;
-              arrow.style.top = `${start.y - end.y + 35}px`;
+              const incline = Math.asin(lineB / lineC);
+              const degIncline = radToDeg(incline);
+              const correctRotate = isLeftChild ? 0 : 180;
+              const correctPos = isLeftChild ? -20 : 220;
+
+              arrow.style.transform = `rotate(${correctRotate - degIncline}deg)`;
+              arrow.style.position = 'absolute';
+              arrow.style.left = `${lineA + correctPos}px`;
+              arrow.style.top = `${lineB + 45}px`;
               arrow.style.width = `${lineC}px`;
+            }
+          });
+          Object.values(child.$children).forEach((babyChild) => {
+            if (babyChild.$el.classList[0] === 'baby-child') {
+              const babyChildElem = babyChild.$el;
+              const coordsBabyChildElem = babyChildElem.getBoundingClientRect();
+              if (coordsBabyChildElem.x > halfScreen) {
+                babyChildElem.style.left = '18vw';
+
+                const startBabyChild = {
+                  x: babyChildElem.left,
+                  y: babyChildElem.top + babyChildElem.height / 2,
+                };
+                const endBabyChild = {
+                  x: coordsChild.right,
+                  y: coordsChild.top + coordsChild.height / 2,
+                };
+                const lineA = start.x - end.x;
+                const lineB = start.y - end.y;
+                const lineC = this.hypotenus(lineA, lineB);
+              } else {
+                babyChildElem.style.right = '18vw';
+              }
             }
           });
         }
@@ -185,7 +215,6 @@ export default {
     bottom: 220px;
     padding-bottom: 0px;
   }
-
   .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
     .v-timeline-item:nth-child(even):not(.v-timeline-item--after)
     .v-timeline-item__body,
@@ -200,17 +229,27 @@ export default {
   }
 }
 .arrow {
-  position: relative;
-  margin: 0px;
-}
-.arrow {
   height: 2px;
-  background: black;
-  position: relative;
-  top: 20px;
-  right: -32px;
+  background: linear-gradient(to left, #333, #333, #fff, #fff);
 }
+.arrow:before,
+  .arrow:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    border-right: 0;
+    top: -7.5px;
+    right: -1px;
+    border-left-color: black;
+    }
 .v-card.v-sheet.theme--light.favorite {
   background: #4700f387;
+  position: relative;
+}
+.baby-child{
+  position: absolute;
 }
 </style>

@@ -9,10 +9,9 @@
       "children": [{
           "name": "Basics",
           "type": "part",
-          "x1": "0",
-          "y1": "0",
-          "x2": "0",
-          "y2": "0"
+          "children": [{
+            "name": "Children"
+          }]
         },
         {
           "name": "HTML5",
@@ -29,12 +28,18 @@
       "children": [{
           "name": "SASS",
           "type": "favorite",
-          "image": "assets/image/frontend/sass.png"
+          "image": "assets/image/frontend/sass.png",
+          "children": [{
+            "name": "Children"
+          }]
         },
         {
           "name": "LESS",
           "type": "additional",
-          "image": "assets/image/frontend/less.png"
+          "image": "assets/image/frontend/less.png",
+          "children": [{
+            "name": "Children"
+          }]
         }
       ]
     },
@@ -84,16 +89,6 @@
           "name": "Materialize CSS",
           "type": "additional",
           "image": "assets/image/frontend/materialize.png"
-        },
-        {
-          "name": "Bulma",
-          "type": "additional",
-          "image": "assets/image/frontend/bulma.png"
-        },
-        {
-          "name": "Semantic UI",
-          "type": "additional",
-          "image": "assets/image/frontend/semantic.png"
         }
       ]
     },
