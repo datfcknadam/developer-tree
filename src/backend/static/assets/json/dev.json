@@ -65,77 +65,42 @@
       }]
     },
     {
-      "name": "Package Manager",
+      "name": "Netwoking and Security",
       "type": "whole",
-      "image": "assets/image/frontend/package_manager.png",
       "color": "green",
       "children": [{
-          "name": "NPM",
-          "type": "favorite",
-          "image": "assets/image/frontend/npm.png"
+          "name": "DNS",
+          "type": "additional"
         },
         {
-          "name": "YARN",
-          "type": "favorite",
-          "image": "assets/image/frontend/yarn.png"
+          "name": "HTTP",
+          "type": "additional"
+        },
+        {
+          "name": "HTTPS",
+          "type": "additional"
+        },
+        {
+          "name": "FTP",
+          "type": "additional"
         }
       ]
     },
     {
-      "name": "CSS Frameworks",
+      "name": "What is and how to setup a _____",
       "type": "whole",
-      "image": "assets/image/frontend/css.png",
       "color": "yellow",
       "children": [{
-          "name": "Bootstrap",
-          "type": "favorite",
-          "image": "assets/image/frontend/bootstrap.png"
-        },
-        {
-          "name": "Materialize CSS",
-          "type": "additional",
-          "image": "assets/image/frontend/materialize.png"
-        },
-        {
-          "name": "Semantic UI",
-          "type": "additional",
-          "image": "assets/image/frontend/semantic.png"
-        }
-      ]
-    },
-    {
-      "name": "CSS Architecture",
-      "type": "whole",
-      "image": "assets/image/frontend/css_architecture.jpg",
-      "color": "blue",
-      "children": [{
-          "name": "BEM",
+          "name": "Reverse Proxy",
           "type": "favorite"
         },
         {
-          "name": "OOCSS",
+          "name": "Caching Server",
           "type": "additional"
         },
         {
-          "name": "SMACSS",
+          "name": "Firewall",
           "type": "additional"
-        }
-      ]
-    },
-    {
-      "name": "CSS",
-      "type": "whole",
-      "image": "assets/image/frontend/css.png",
-      "color": "red",
-      "children": [{
-          "name": "SASS",
-          "type": "part",
-          "image": "assets/image/frontend/sass.png"
-        },
-        {
-          "name": "LESS",
-          "type": "additional",
-          "image": "assets/image/frontend/less.png"
         }
       ]
     }

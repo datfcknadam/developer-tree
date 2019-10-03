@@ -98,9 +98,9 @@ export default {
               else arrow.style.left = `${coordsChild.width + 8}px`;
               arrow.style.transform = `rotate(${correctRotate + degIncline}deg)`;
               arrow.style.position = 'absolute';
-
+              arrow.style.background = 'linear-gradient(to left, #000, #000,  #fff, #fff,  #fff)';
               arrow.style.top = `calc(${lineB}px + 40%)`;
-              arrow.style.width = `${lineC}px`;
+              arrow.style.width = '150px';
             }
           });
           Object.values(child.$children[0].$el.children).forEach((babyChild) => {
@@ -136,7 +136,7 @@ export default {
                     arrowBabyChild.style.transform = `rotate(${degIncline}deg)`;
                   }
                   arrowBabyChild.style.position = 'absolute';
-
+                  arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff)';
                   arrowBabyChild.style.top = `${coordsBabyChildElem.height / 2}px`;
                   arrowBabyChild.style.width = `${lineC / 5}px`;
                 }
@@ -237,7 +237,6 @@ export default {
 }
 .arrow {
   height: 2px;
-  background: linear-gradient(to left, #000, #000,  #000,  #000, #fff,  #fff);
 }
 .arrow:before,
 .arrow:after {
