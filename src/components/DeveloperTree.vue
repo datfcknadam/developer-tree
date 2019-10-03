@@ -20,23 +20,9 @@
             <img :src="serverUrl + item.image" />
           </v-avatar>
         </template>
-        <v-col v-for="(child, i) in item.children" :key="i">
+        <v-col max-height="200px" v-for="(child, i) in item.children" :key="i">
           <v-card :class="child.type" max-height="200">
-            <v-card v-for="(child, i) in child.children" :key="i" class="baby-child">
-              <div class="arrow"></div>
-              <v-list-item three-line>
-                <v-list-item-content class="align-self-start">
-                  <v-card-title v-text="child.name" />
-                  <v-divider v-if="child.description" class="mx-2" />
-                  <v-card-text v-if="child.description"
-                    class="font-italic"
-                    v-text="child.description" />
-                </v-list-item-content>
-                <v-list-item-avatar v-if="child.image" tile width="auto">
-                  <img :src="serverUrl + child.image" />
-                </v-list-item-avatar>
-              </v-list-item>
-            </v-card>
+            <Child :babyChild="child.children"/>
             <div class="arrow"></div>
             <v-list-item three-line>
               <v-list-item-content class="align-self-start">
@@ -59,9 +45,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import Child from './Child/Child.vue';
 
 export default {
   name: 'DeveloperTree',
+  components: {
+    Child,
+  },
   props: {
     items: {
       type: Array,
@@ -70,16 +60,10 @@ export default {
   computed: {
     ...mapState('tree', ['serverUrl']),
   },
-  methods: {
-    calculateLine(a, b) {
-      return a - b;
-    },
-  },
   mounted() {
     const halfScreen = screen.width / 2;
     const radToDeg = (rad) => (rad * 180) / Math.PI;
     const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
-    const calculateLine = (a, b) => a - b;
 
     Object.values(this.$refs).forEach((item) => {
       const coordsParent = item[0].$el.getBoundingClientRect();
@@ -94,51 +78,66 @@ export default {
           const isLeftChild = coordsChild.right > centerParent.x;
           const start = {
             x: centerParent.x,
-            y: centerParent.y - 12,
+            y: centerParent.y,
           };
           const end = {
             x: isLeftChild ? coordsChild.left : coordsChild.right,
             y: coordsChild.top + coordsChild.height / 2,
           };
-          const lineA = start.x - end.x;
-          const lineB = start.y - end.y;
-          const lineC = hypotenus(calculateLine(start.x, end.x), calculateLine(start.y, end.y));
-
           Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
+              const lineA = start.x - end.x;
+              const lineB = start.y - end.y;
+              const lineC = hypotenus(lineA, lineB);
               const incline = Math.asin(lineB / lineC);
               const degIncline = radToDeg(incline);
               const correctRotate = isLeftChild ? 0 : 180;
-              const correctPos = isLeftChild ? -20 : 220;
-
-              arrow.style.transform = `rotate(${correctRotate - degIncline}deg)`;
+              if (isLeftChild) arrow.style.right = `${coordsChild.width}px`;
+              else arrow.style.left = `${coordsChild.width + 8}px`;
+              arrow.style.transform = `rotate(${correctRotate + degIncline}deg)`;
               arrow.style.position = 'absolute';
-              arrow.style.left = `${lineA + correctPos}px`;
-              arrow.style.top = `${lineB + 45}px`;
+
+              arrow.style.top = `calc(${lineB}px + 40%)`;
               arrow.style.width = `${lineC}px`;
             }
           });
-          Object.values(child.$children).forEach((babyChild) => {
-            if (babyChild.$el.classList[0] === 'baby-child') {
-              const babyChildElem = babyChild.$el;
+          Object.values(child.$children[0].$el.children).forEach((babyChild) => {
+            if (babyChild.classList[0] === 'baby-child') {
+              const babyChildElem = babyChild;
               const coordsBabyChildElem = babyChildElem.getBoundingClientRect();
-              if (coordsBabyChildElem.x > halfScreen) {
-                babyChildElem.style.left = '18vw';
+              const isRight = coordsBabyChildElem.x > halfScreen;
 
-                const startBabyChild = {
-                  x: babyChildElem.left,
-                  y: babyChildElem.top + babyChildElem.height / 2,
-                };
-                const endBabyChild = {
-                  x: coordsChild.right,
-                  y: coordsChild.top + coordsChild.height / 2,
-                };
-                const lineA = start.x - end.x;
-                const lineB = start.y - end.y;
-                const lineC = this.hypotenus(lineA, lineB);
-              } else {
-                babyChildElem.style.right = '18vw';
-              }
+              if (isRight) babyChildElem.style.left = '18vw';
+              else babyChildElem.style.right = '18vw';
+
+              const startBabyChild = {
+                x: isRight ? coordsChild.right : coordsChild.left,
+                y: coordsChild.top,
+              };
+              const endBabyChild = {
+                x: isRight ? coordsChild.left : coordsChild.right,
+                y: coordsBabyChildElem.top + coordsBabyChildElem.height / 2,
+              };
+              Object.values(babyChild.children).forEach((arrowBabyChild) => {
+                if (arrowBabyChild.className === 'arrow') {
+                  const lineA = Math.abs(startBabyChild.x - endBabyChild.x);
+                  const lineB = Math.abs(startBabyChild.y - endBabyChild.y);
+                  const lineC = hypotenus(lineA, lineB);
+                  const incline = Math.asin(lineB / lineC);
+                  let degIncline = radToDeg(incline);
+
+                  degIncline = isRight ? degIncline : degIncline + 180;
+                  if (isRight) arrowBabyChild.style.right = `${coordsBabyChildElem.width - 1}px`;
+                  else arrowBabyChild.style.left = `${coordsBabyChildElem.width - 1}px`;
+                  if (degIncline !== 0) {
+                    arrowBabyChild.style.transform = `rotate(${degIncline}deg)`;
+                  }
+                  arrowBabyChild.style.position = 'absolute';
+
+                  arrowBabyChild.style.top = `${coordsBabyChildElem.height / 2}px`;
+                  arrowBabyChild.style.width = `${lineC / 5}px`;
+                }
+              });
             }
           });
         }
@@ -213,7 +212,6 @@ export default {
   .basis1 {
     position: relative;
     bottom: 220px;
-    padding-bottom: 0px;
   }
   .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
     .v-timeline-item:nth-child(even):not(.v-timeline-item--after)
@@ -225,12 +223,12 @@ export default {
   }
 
   .v-timeline-item:nth-child(even){
-    padding-left: 30%;
+    padding-left: 29vw;
   }
 }
 .arrow {
   height: 2px;
-  background: linear-gradient(to left, #333, #333, #fff, #fff);
+  background: linear-gradient(to left, #000, #000,  #000,  #000, #fff,  #fff);
 }
 .arrow:before,
   .arrow:after {
@@ -247,9 +245,11 @@ export default {
     }
 .v-card.v-sheet.theme--light.favorite {
   background: #4700f387;
-  position: relative;
 }
 .baby-child{
-  position: absolute;
+  position: relative;
+  margin-top: 10px;
+  max-height: 50px;
+
 }
 </style>

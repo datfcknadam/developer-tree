@@ -9,14 +9,18 @@
       "children": [{
           "name": "Basics",
           "type": "part",
-          "children": [{
-            "name": "Children"
-          }]
+          "children": [
+            {"name": "Children"},
+            {"name": "Children"}
+          ]
         },
         {
           "name": "HTML5",
           "type": "part",
-          "image": "assets/image/frontend/html5.png"
+          "image": "assets/image/frontend/html5.png",
+          "children": [{
+            "name": "Children"
+          }]
         }
       ]
     },
@@ -50,7 +54,10 @@
       "color": "false",
       "children": [{
           "name": "Syntax and Basic Constructs",
-          "type": "part"
+          "type": "part",
+          "children": [{
+            "name": "Children"
+          }]
         },
         {
           "name": "Learn DOM manipulation",
