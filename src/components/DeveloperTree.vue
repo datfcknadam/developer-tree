@@ -98,9 +98,9 @@ export default {
               else arrow.style.left = `${coordsChild.width + 8}px`;
               arrow.style.transform = `rotate(${correctRotate + degIncline}deg)`;
               arrow.style.position = 'absolute';
-              arrow.style.background = 'linear-gradient(to left, #000, #000,  #fff, #fff,  #fff)';
+              arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff, #fff, #fff,  #fff)';
               arrow.style.top = `calc(${lineB}px + 40%)`;
-              arrow.style.width = '150px';
+              arrow.style.width = `calc(${lineC}px - 10px)`;
             }
           });
           Object.values(child.$children[0].$el.children).forEach((babyChild) => {
