@@ -122,7 +122,7 @@
       "name": "CSS",
       "type": "whole",
       "image": "assets/image/frontend/css.png",
-      "color": "false",
+      "color": "purple",
       "children": [{
           "name": "SASS",
           "type": "part",

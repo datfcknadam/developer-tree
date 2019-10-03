@@ -2,7 +2,7 @@
   <div class = "card-baby-child">
     <v-card v-for="(child, i) in babyChild" :key="i" class="baby-child">
       <div class="arrow"></div>
-      <v-list-item three-line>
+      <v-list-item>
         <v-list-item-content class="align-self-start">
           <v-card-title v-text="child.name" />
           <v-divider v-if="child.description" class="mx-2" />
@@ -44,9 +44,9 @@ export default {
   position: relative;
   bottom: 10px;
 }
-.v-list-item .v-list-item--three-line .theme--light{
+.baby-child.v-card.v-sheet.theme--light > div.v-list-item.theme--light{
 margin-top: 10px;
-  max-height: 50px;
+height: 0px;
 }
 
 </style>

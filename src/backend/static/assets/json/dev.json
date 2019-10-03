@@ -2,58 +2,73 @@
   "name": "dev",
   "type": "whole",
   "children": [{
-      "name": "HTML",
+      "name": "Learn a Programming Language",
       "type": "main",
-      "image": "assets/image/frontend/html.png",
-      "color": "false",
+      "color": "red",
+      "description": "Doesn`t matter which language you pick, key is to get some programming knowledge",
       "children": [{
-          "name": "Basics",
-          "type": "part"
-        },
-        {
-          "name": "HTML5",
+          "name": "Python",
           "type": "part",
-          "image": "assets/image/frontend/html5.png"
+          "image": "assets/image/backend/python.png"
+        },
+        {
+          "name": "C/C++",
+          "type": "part",
+          "image": "assets/image/dev/c.png"
+        },
+        {
+          "name": "Node.js",
+          "type": "part",
+          "image": "assets/image/backend/node.png"
         }
       ]
     },
     {
-      "name": "CSS",
-      "type": "basis",
-      "image": "assets/image/frontend/css.png",
-      "color": "false",
+      "name": "Understand different OS Concepts",
+      "type": "main",
+      "color": "blue",
       "children": [{
-          "name": "SASS",
-          "type": "favorite",
-          "image": "assets/image/frontend/sass.png"
+          "name": "Process Managment",
+          "type": "additional"
         },
         {
-          "name": "LESS",
-          "type": "additional",
-          "image": "assets/image/frontend/less.png"
-        }
-      ]
-    },
-    {
-      "name": "Basic of JavaScript",
-      "type": "basis1",
-      "image": "assets/image/frontend/js.png",
-      "color": "false",
-      "children": [{
-          "name": "Syntax and Basic Constructs",
-          "type": "part"
+          "name": "Threads and Concurrency",
+          "type": "additional"
         },
         {
-          "name": "Learn DOM manipulation",
+          "name": "Sockets",
           "type": "additional"
         }
+
       ]
+    },
+    {
+      "name": "Learn about Managing Servers",
+      "type": "main",
+      "description": "Get some administration in some OS. Especially any Linux distribution. Pick Ubuntu if you have a little to no experience with Linux",
+      "color": "purple",
+      "children": [{
+        "name": "Operating Systems",
+        "type": "favorite",
+        "children": [{
+            "name": "Linux",
+            "image": "assets/image/dev/linux.png"
+          },
+          {
+            "name": "Unix",
+            "image": "assets/image/dev/unix.png"
+          }, {
+            "name": "Windows",
+            "image": "assets/image/dev/windows.png"
+          }
+        ]
+      }]
     },
     {
       "name": "Package Manager",
       "type": "whole",
       "image": "assets/image/frontend/package_manager.png",
-      "color": "false",
+      "color": "green",
       "children": [{
           "name": "NPM",
           "type": "favorite",
@@ -70,7 +85,7 @@
       "name": "CSS Frameworks",
       "type": "whole",
       "image": "assets/image/frontend/css.png",
-      "color": "false",
+      "color": "yellow",
       "children": [{
           "name": "Bootstrap",
           "type": "favorite",
@@ -80,11 +95,6 @@
           "name": "Materialize CSS",
           "type": "additional",
           "image": "assets/image/frontend/materialize.png"
-        },
-        {
-          "name": "Bulma",
-          "type": "additional",
-          "image": "assets/image/frontend/bulma.png"
         },
         {
           "name": "Semantic UI",
@@ -97,7 +107,7 @@
       "name": "CSS Architecture",
       "type": "whole",
       "image": "assets/image/frontend/css_architecture.jpg",
-      "color": "false",
+      "color": "blue",
       "children": [{
           "name": "BEM",
           "type": "favorite"
@@ -116,7 +126,7 @@
       "name": "CSS",
       "type": "whole",
       "image": "assets/image/frontend/css.png",
-      "color": "false",
+      "color": "red",
       "children": [{
           "name": "SASS",
           "type": "part",

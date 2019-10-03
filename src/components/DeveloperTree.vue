@@ -71,7 +71,7 @@ export default {
       const coordsParent = item[0].$el.getBoundingClientRect();
       const centerParent = {
         x: coordsParent.left + coordsParent.width / 2,
-        y: coordsParent.top + coordsParent.height / 2 - 10,
+        y: coordsParent.top + coordsParent.height / 2 - 7.5,
       };
 
       Object.values(item[0].$children).forEach((child) => {
@@ -129,6 +129,7 @@ export default {
                   let degIncline = radToDeg(incline);
 
                   degIncline = isRight ? degIncline : degIncline + 180;
+
                   if (isRight) arrowBabyChild.style.right = `${coordsBabyChildElem.width - 1}px`;
                   else arrowBabyChild.style.left = `${coordsBabyChildElem.width - 1}px`;
                   if (degIncline !== 0) {
@@ -192,6 +193,12 @@ export default {
   }
 }
 @media screen and (min-width: 500px) {
+  img {
+    width: auto;
+    height: auto;
+    max-width: 80%;
+    max-height: 80%;
+  }
   .v-card {
     max-width: calc(15vw);
   }

@@ -17,7 +17,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('tree/loadDev');
-    const elem = document.getElementById('timeline0');
   },
   computed: mapState('tree', ['dev']),
 };
