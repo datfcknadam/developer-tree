@@ -71,7 +71,7 @@ export default {
       const coordsParent = item[0].$el.getBoundingClientRect();
       const centerParent = {
         x: coordsParent.left + coordsParent.width / 2,
-        y: coordsParent.top + coordsParent.height / 2,
+        y: coordsParent.top + coordsParent.height / 2 - 10,
       };
 
       Object.values(item[0].$children).forEach((child) => {
