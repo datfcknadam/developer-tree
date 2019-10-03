@@ -16,7 +16,7 @@
           <span class="font-italic" v-text="item.description"></span>
         </template>
         <template v-if="item.image" v-slot:icon>
-          <v-avatar >
+          <v-avatar>
             <img :src="serverUrl + item.image" />
           </v-avatar>
         </template>
@@ -28,9 +28,11 @@
               <v-list-item-content class="align-self-start">
                 <v-card-title v-text="child.name" />
                 <v-divider v-if="child.description" class="mx-2" />
-                <v-card-text v-if="child.description"
+                <v-card-text
+                  v-if="child.description"
                   class="font-italic"
-                  v-text="child.description" />
+                  v-text="child.description"
+                />
               </v-list-item-content>
               <v-list-item-avatar v-if="child.image" tile width="auto">
                 <img :src="serverUrl + child.image" />
@@ -193,7 +195,7 @@ export default {
   .v-card {
     max-width: calc(15vw);
   }
-  .v-card .v-sheet .theme--light{
+  .v-card .v-sheet .theme--light {
     margin-right: 0px;
   }
   .v-card__title {
@@ -219,7 +221,7 @@ export default {
   .v-timeline:not(.v-timeline--dense):not(.v-timeline--reverse)
     .v-timeline-item--before
     .v-timeline-item__body {
-      max-width: calc(50% - 329px);
+    max-width: calc(50% - 329px);
   }
 
   .v-timeline-item:nth-child(even){
@@ -231,18 +233,18 @@ export default {
   background: linear-gradient(to left, #000, #000,  #000,  #000, #fff,  #fff);
 }
 .arrow:before,
-  .arrow:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 9px solid transparent;
-    border-right: 0;
-    top: -7.5px;
-    right: -1px;
-    border-left-color: black;
-    }
+.arrow:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 9px solid transparent;
+  border-right: 0;
+  top: -7.5px;
+  right: -1px;
+  border-left-color: black;
+}
 .v-card.v-sheet.theme--light.favorite {
   background: #4700f387;
 }
