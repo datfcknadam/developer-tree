@@ -1,11 +1,6 @@
 export default {
-  SET_FRONT(state, value) {
-    state.front = value;
-  },
-  SET_BACK(state, value) {
-    state.back = value;
-  },
-  SET_DEV(state, value) {
-    state.dev = value;
+  SET_DATA(state, { sectionName, data }) {
+    const name = Object.values(sectionName);
+    state[name[0]] = data;
   },
 };

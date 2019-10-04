@@ -55,9 +55,6 @@
             "image": "assets/image/dev/linux.png"
           },
           {
-            "name": "Unix",
-            "image": "assets/image/dev/unix.png"
-          }, {
             "name": "Windows",
             "image": "assets/image/dev/windows.png"
           }

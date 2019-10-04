@@ -3,10 +3,9 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 
-import BackPage from './pages/BackPage.vue';
-import FrontPage from './pages/FrontPage.vue';
 import MainPage from './pages/MainPage.vue';
-import DevPage from './pages/DevPage.vue';
+import TreePage from './pages/TreePage.vue';
+
 import store from './store/index';
 
 Vue.config.productionTip = false;
@@ -15,9 +14,9 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: MainPage, name: 'main' },
-  { path: '/back-page', component: BackPage },
-  { path: '/front-page', component: FrontPage },
-  { path: '/dev-page', component: DevPage },
+  { path: '/back-page', component: TreePage, props: { sectionName: 'backend' } },
+  { path: '/front-page', component: TreePage, props: { sectionName: 'frontend' } },
+  { path: '/dev-page', component: TreePage, props: { sectionName: 'dev' } },
 ];
 
 

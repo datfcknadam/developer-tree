@@ -4,11 +4,11 @@
       <v-timeline-item
         dense
         v-for="(item, i) in items"
+        :ref="`TLItem_${i}`"
         :class="item.type"
         large
         :color="item.color"
         :key="i"
-        :ref="`TLItem_${i}`"
       >
         <template v-slot:opposite>
           <span v-text="item.name"></span>
@@ -62,98 +62,108 @@ export default {
   computed: {
     ...mapState('tree', ['serverUrl']),
   },
-  mounted() {
-    const halfScreen = screen.width / 2;
-    const radToDeg = (rad) => (rad * 180) / Math.PI;
-    const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
-    const setLine = (start, end) => {
-      const lineA = (start.x - end.x);
-      const lineB = (start.y - end.y);
-      const lineC = hypotenus(lineA, lineB);
-      const incline = Math.asin(lineB / lineC);
-      const degIncline = radToDeg(incline);
-      return {
-        lineA, lineB, lineC, incline, degIncline,
+  watch: {
+    items() {
+      const halfScreen = screen.width / 2;
+      const radToDeg = (rad) => (rad * 180) / Math.PI;
+      const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
+      const setLine = (start, end) => {
+        const lineA = (start.x - end.x);
+        const lineB = (start.y - end.y);
+        const lineC = hypotenus(lineA, lineB);
+        const incline = Math.asin(lineB / lineC);
+        const degIncline = radToDeg(incline);
+        return {
+          lineA, lineB, lineC, incline, degIncline,
+        };
       };
-    };
-
-    Object.values(this.$refs).forEach((item) => {
-      const coordsParent = item[0].$el.getBoundingClientRect();
-      const centerParent = {
-        x: coordsParent.left + coordsParent.width / 2,
-        y: coordsParent.top + coordsParent.height / 2 - 7.5,
+      const getCenterCoords = (item) => {
+        const coordsParent = item.getBoundingClientRect();
+        const centerParent = {
+          right: coordsParent.left + coordsParent.width / 2,
+          left: coordsParent.right - coordsParent.width / 2,
+          x: coordsParent.right - coordsParent.width / 2,
+          y: coordsParent.top + coordsParent.height / 2 - 7.5,
+        };
+        return centerParent;
       };
+      const getExtremeCoords = (parent, child) => {
+        const isLeftChild = child.x > halfScreen || child.x > parent.x;
+        const start = {
+          x: isLeftChild ? parent.right : parent.left,
+          y: parent.y,
+        };
+        const end = {
+          x: isLeftChild ? child.left : child.right,
+          y: child.top + child.height / 2,
+        };
+        return { start, end, isLeftChild };
+      };
+      Object.values(this.$refs).forEach((item) => {
+        const centerParent = getCenterCoords(item[0].$el);
 
-      Object.values(item[0].$children).forEach((child) => {
-        if (child.$el.classList[0] === 'v-card') {
-          const coordsChild = child.$el.getBoundingClientRect();
-          const isLeftChild = coordsChild.right > centerParent.x;
-          const start = {
-            x: centerParent.x,
-            y: centerParent.y,
-          };
-          const end = {
-            x: isLeftChild ? coordsChild.left : coordsChild.right,
-            y: coordsChild.top + coordsChild.height / 2,
-          };
-          Object.values(child.$el.children).forEach((arrow) => {
-            if (arrow.className === 'arrow') {
-              const line = setLine(start, end);
+        Object.values(item[0].$children).forEach((child) => {
+          if (child.$el.classList[0] === 'v-card') {
+            const coordsChild = child.$el.getBoundingClientRect();
+            const extremCoords = getExtremeCoords(centerParent, coordsChild);
 
-              line.degIncline = isLeftChild ? line.degIncline : line.degIncline + 180;
+            Object.values(child.$el.children).forEach((arrow) => {
+              if (arrow.className === 'arrow') {
+                const line = setLine(extremCoords.start, extremCoords.end);
 
-              if (isLeftChild) arrow.style.right = `${coordsChild.width}px`;
-              else arrow.style.left = `${coordsChild.width + 8}px`;
+                line.degIncline = extremCoords.isLeftChild
+                  ? line.degIncline : line.degIncline + 180;
 
-              arrow.style.transform = `rotate(${line.degIncline}deg)`;
-              arrow.style.position = 'absolute';
-              arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff, #fff, #fff,  #fff)';
-              arrow.style.top = `calc(${line.lineB}px + 40%)`;
-              arrow.style.width = `calc(${line.lineC}px - 10px)`;
-            }
-          });
-          Object.values(child.$children[0].$el.children).forEach((babyChild) => {
-            if (babyChild.classList[0] === 'baby-child') {
-              const babyChildElem = babyChild;
-              const coordsBabyChildElem = babyChildElem.getBoundingClientRect();
-              const isRight = coordsBabyChildElem.x > halfScreen;
+                if (extremCoords.isLeftChild) arrow.style.right = `${coordsChild.width}px`;
+                else arrow.style.left = `${coordsChild.width + 8}px`;
 
-              if (isRight) babyChildElem.style.left = '18vw';
-              else babyChildElem.style.right = '18vw';
+                arrow.style.transform = `rotate(${line.degIncline}deg)`;
+                arrow.style.position = 'absolute';
+                arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff, #fff, #fff,  #fff)';
+                arrow.style.top = `calc(${line.lineB}px + 40%)`;
+                arrow.style.width = `calc(${line.lineC}px - 10px)`;
+              }
+            });
+            Object.values(child.$children[0].$el.children).forEach((babyChild) => {
+              if (babyChild.classList[0] === 'baby-child') {
+                const coordsBabyChild = babyChild.getBoundingClientRect();
+                const childExtremeCoords = getExtremeCoords(coordsChild, coordsBabyChild);
 
-              const startBabyChild = {
-                x: isRight ? coordsChild.right : coordsChild.left,
-                y: coordsChild.top + coordsChild.height / 2,
-              };
-              const endBabyChild = {
-                x: isRight ? coordsChild.left : coordsChild.right,
-                y: coordsBabyChildElem.top + coordsBabyChildElem.height / 2,
-              };
-
-              Object.values(babyChild.children).forEach((arrowBabyChild) => {
-                if (arrowBabyChild.className === 'arrow') {
-                  const line = setLine(startBabyChild, endBabyChild);
-
-                  line.degIncline = isRight ? line.degIncline - 9 : line.degIncline + 180;
-
-                  if (isRight) arrowBabyChild.style.right = `${coordsBabyChildElem.width - 1}px`;
-                  else arrowBabyChild.style.left = `${coordsBabyChildElem.width - 1}px`;
-
-                  if (line.degIncline !== 0) {
-                    arrowBabyChild.style.transform = `rotate(${line.degIncline}deg)`;
-                  }
-
-                  arrowBabyChild.style.position = 'absolute';
-                  arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff)';
-                  arrowBabyChild.style.top = `${coordsBabyChildElem.height / 2}px`;
-                  arrowBabyChild.style.width = `${line.lineC / 5}px`;
+                if (childExtremeCoords.isLeftChild) {
+                  babyChild.style.left = '18vw';
+                } else {
+                  babyChild.style.right = '18vw';
                 }
-              });
-            }
-          });
-        }
+
+                Object.values(babyChild.children).forEach((arrowBabyChild) => {
+                  if (arrowBabyChild.className === 'arrow') {
+                    const line = setLine(childExtremeCoords.start, childExtremeCoords.end);
+
+                    line.degIncline = childExtremeCoords.isLeftChild
+                      ? line.degIncline : line.degIncline + 180;
+
+                    if (childExtremeCoords.isLeftChild) {
+                      arrowBabyChild.style.right = `${coordsBabyChild.width - 1}px`;
+                    } else {
+                      arrowBabyChild.style.left = `${coordsBabyChild.width - 1}px`;
+                    }
+
+                    if (line.degIncline !== 0) {
+                      arrowBabyChild.style.transform = `rotate(${line.degIncline}deg)`;
+                    }
+
+                    arrowBabyChild.style.position = 'absolute';
+                    arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff)';
+                    arrowBabyChild.style.top = `${coordsBabyChild.height / 2}px`;
+                    arrowBabyChild.style.width = `${Math.abs(line.lineC) / 5}px`;
+                  }
+                });
+              }
+            });
+          }
+        });
       });
-    });
+    },
   },
 };
 </script>
@@ -192,7 +202,7 @@ export default {
     max-height: 70%;
   }
   .v-application--is-ltr .v-list-item__avatar:last-of-type:not(:only-child) {
-    margin: 0px;
+    margin: 0;
   }
   .v-list-item {
     padding: 0;
@@ -209,7 +219,7 @@ export default {
     max-width: calc(15vw);
   }
   .v-card .v-sheet .theme--light {
-    margin-right: 0px;
+    margin-right: 0;
   }
   .v-card__title {
     word-break: keep-all;
