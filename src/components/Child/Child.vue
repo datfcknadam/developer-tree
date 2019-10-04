@@ -35,7 +35,7 @@ export default {
 
 <style>
 .card-baby-child {
-  max-height: 0px;
+  max-height: 0;
   position: relative;
   bottom: 20px;
 }
@@ -46,7 +46,7 @@ export default {
 }
 .baby-child.v-card.v-sheet.theme--light > div.v-list-item.theme--light{
 margin-top: 10px;
-height: 0px;
+height: 0;
 }
 
 </style>

@@ -15,6 +15,7 @@ export default {
   components: {
     Navbar,
   },
+  /* @todo: удалить не используемое */
   data: () => ({
     //
   }),

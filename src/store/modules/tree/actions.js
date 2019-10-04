@@ -10,4 +10,8 @@ export default {
   loadDev({ commit }) {
     api.get('dev', (response) => { commit('SET_DEV', response.data); });
   },
+  /* @todo: мог бы быть 1 метод */
+  loadData({ commit }, sectionName) {
+    api.get(sectionName, (response) => { commit('SET_DATA', { sectionName, data: response.data }); });
+  },
 };
