@@ -66,6 +66,16 @@ export default {
     const halfScreen = screen.width / 2;
     const radToDeg = (rad) => (rad * 180) / Math.PI;
     const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
+    const setLine = (start, end) => {
+      const lineA = (start.x - end.x);
+      const lineB = (start.y - end.y);
+      const lineC = hypotenus(lineA, lineB);
+      const incline = Math.asin(lineB / lineC);
+      const degIncline = radToDeg(incline);
+      return {
+        lineA, lineB, lineC, incline, degIncline,
+      };
+    };
 
     Object.values(this.$refs).forEach((item) => {
       const coordsParent = item[0].$el.getBoundingClientRect();
@@ -88,19 +98,18 @@ export default {
           };
           Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
-              const lineA = start.x - end.x;
-              const lineB = start.y - end.y;
-              const lineC = hypotenus(lineA, lineB);
-              const incline = Math.asin(lineB / lineC);
-              const degIncline = radToDeg(incline);
-              const correctRotate = isLeftChild ? 0 : 180;
+              const line = setLine(start, end);
+
+              line.degIncline = isLeftChild ? line.degIncline : line.degIncline + 180;
+
               if (isLeftChild) arrow.style.right = `${coordsChild.width}px`;
               else arrow.style.left = `${coordsChild.width + 8}px`;
-              arrow.style.transform = `rotate(${correctRotate + degIncline}deg)`;
+
+              arrow.style.transform = `rotate(${line.degIncline}deg)`;
               arrow.style.position = 'absolute';
               arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff, #fff, #fff,  #fff)';
-              arrow.style.top = `calc(${lineB}px + 40%)`;
-              arrow.style.width = `calc(${lineC}px - 10px)`;
+              arrow.style.top = `calc(${line.lineB}px + 40%)`;
+              arrow.style.width = `calc(${line.lineC}px - 10px)`;
             }
           });
           Object.values(child.$children[0].$el.children).forEach((babyChild) => {
@@ -114,31 +123,30 @@ export default {
 
               const startBabyChild = {
                 x: isRight ? coordsChild.right : coordsChild.left,
-                y: coordsChild.top,
+                y: coordsChild.top + coordsChild.height / 2,
               };
               const endBabyChild = {
                 x: isRight ? coordsChild.left : coordsChild.right,
                 y: coordsBabyChildElem.top + coordsBabyChildElem.height / 2,
               };
+
               Object.values(babyChild.children).forEach((arrowBabyChild) => {
                 if (arrowBabyChild.className === 'arrow') {
-                  const lineA = Math.abs(startBabyChild.x - endBabyChild.x);
-                  const lineB = Math.abs(startBabyChild.y - endBabyChild.y);
-                  const lineC = hypotenus(lineA, lineB);
-                  const incline = Math.asin(lineB / lineC);
-                  let degIncline = radToDeg(incline);
+                  const line = setLine(startBabyChild, endBabyChild);
 
-                  degIncline = isRight ? degIncline : degIncline + 180;
+                  line.degIncline = isRight ? line.degIncline - 9 : line.degIncline + 180;
 
                   if (isRight) arrowBabyChild.style.right = `${coordsBabyChildElem.width - 1}px`;
                   else arrowBabyChild.style.left = `${coordsBabyChildElem.width - 1}px`;
-                  if (degIncline !== 0) {
-                    arrowBabyChild.style.transform = `rotate(${degIncline}deg)`;
+
+                  if (line.degIncline !== 0) {
+                    arrowBabyChild.style.transform = `rotate(${line.degIncline}deg)`;
                   }
+
                   arrowBabyChild.style.position = 'absolute';
                   arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff)';
                   arrowBabyChild.style.top = `${coordsBabyChildElem.height / 2}px`;
-                  arrowBabyChild.style.width = `${lineC / 5}px`;
+                  arrowBabyChild.style.width = `${line.lineC / 5}px`;
                 }
               });
             }
@@ -146,8 +154,6 @@ export default {
         }
       });
     });
-
-    console.log(this.$refs);
   },
 };
 </script>

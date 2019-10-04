@@ -44,9 +44,5 @@ export default {
   position: relative;
   bottom: 10px;
 }
-.baby-child.v-card.v-sheet.theme--light > div.v-list-item.theme--light{
-margin-top: 10px;
-height: 0px;
-}
 
 </style>
