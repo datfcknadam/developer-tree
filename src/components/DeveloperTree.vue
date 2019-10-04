@@ -63,11 +63,13 @@ export default {
     ...mapState('tree', ['serverUrl']),
   },
   mounted() {
+    /* @todo: такие длинные методы лучше разбивать на более маленькие и их вызывать уже в тех местах где нужно */
     const halfScreen = screen.width / 2;
     const radToDeg = (rad) => (rad * 180) / Math.PI;
     const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
 
     Object.values(this.$refs).forEach((item) => {
+      /* @todo: например, тут, метод getCenterCoords(item): centerParent */
       const coordsParent = item[0].$el.getBoundingClientRect();
       const centerParent = {
         x: coordsParent.left + coordsParent.width / 2,
@@ -76,6 +78,7 @@ export default {
 
       Object.values(item[0].$children).forEach((child) => {
         if (child.$el.classList[0] === 'v-card') {
+          /* @todo: например, тут, метод getExtremeCoords(child): {start, end} */
           const coordsChild = child.$el.getBoundingClientRect();
           const isLeftChild = coordsChild.right > centerParent.x;
           const start = {
@@ -86,8 +89,10 @@ export default {
             x: isLeftChild ? coordsChild.left : coordsChild.right,
             y: coordsChild.top + coordsChild.height / 2,
           };
+
           Object.values(child.$el.children).forEach((arrow) => {
             if (arrow.className === 'arrow') {
+              /* @todo: этот кусок кода повторяется для babyChild и может так же быть вынесен в отдельную функцию */
               const lineA = start.x - end.x;
               const lineB = start.y - end.y;
               const lineC = hypotenus(lineA, lineB);
@@ -109,6 +114,7 @@ export default {
               const coordsBabyChildElem = babyChildElem.getBoundingClientRect();
               const isRight = coordsBabyChildElem.x > halfScreen;
 
+              /* @todo: хорошая практика выделять блоки if/else/else if скобками {} */
               if (isRight) babyChildElem.style.left = '18vw';
               else babyChildElem.style.right = '18vw';
 
@@ -186,7 +192,7 @@ export default {
     max-height: 70%;
   }
   .v-application--is-ltr .v-list-item__avatar:last-of-type:not(:only-child) {
-    margin: 0px;
+    margin: 0;
   }
   .v-list-item {
     padding: 0;
@@ -203,7 +209,7 @@ export default {
     max-width: calc(15vw);
   }
   .v-card .v-sheet .theme--light {
-    margin-right: 0px;
+    margin-right: 0;
   }
   .v-card__title {
     word-break: keep-all;

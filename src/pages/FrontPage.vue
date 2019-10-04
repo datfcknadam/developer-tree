@@ -7,6 +7,7 @@
 </template>
 
 <script>
+/* @todo: мог быть 1 компонент см. TreePage */
 import { mapState } from 'vuex';
 import DeveloperTree from '../components/DeveloperTree.vue';
 

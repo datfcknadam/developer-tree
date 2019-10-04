@@ -1,6 +1,6 @@
 export default {
-  front: [],
+  frontend: [],
   serverUrl: 'http://localhost:3005/',
-  back: [],
+  backend: [],
   dev: [],
 };
