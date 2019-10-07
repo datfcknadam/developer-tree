@@ -37,7 +37,11 @@ export default {
 </script>
 
 <style scoped>
-  h1{
-    text-align: center;
-  }
+h1{
+  text-align: center;
+}
+.container {
+  background: linear-gradient(to top left, #6c7cfc, #98fce0a6);
+  background-size: cover;
+}
 </style>
