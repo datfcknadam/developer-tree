@@ -2,11 +2,11 @@
   <div>
     <v-timeline>
       <v-timeline-item
-        dense
         v-for="(item, i) in items"
+        dense
+        large
         :ref="`TLItem_${i}`"
         :class="item.type"
-        large
         :color="item.color"
         :key="i"
       >
@@ -20,7 +20,7 @@
             <img :src="serverUrl + item.image" />
           </v-avatar>
         </template>
-        <v-col max-height="200px" v-for="(child, i) in item.children" :key="i">
+        <v-col v-for="(child, i) in item.children" max-height="200px" :key="i">
           <v-card :class="child.type" max-height="200">
             <Child :babyChild="child.children"/>
             <div class="arrow"></div>
@@ -67,20 +67,20 @@ export default {
       const halfScreen = screen.width / 2;
       const radToDeg = (rad) => (rad * 180) / Math.PI;
       const hypotenus = (a, b) => Math.sqrt(a ** 2 + b ** 2);
-      const setLine = (start, end) => {
+      const setLines = (start, end) => {
         const lineA = (start.x - end.x);
         const lineB = (start.y - end.y);
         const lineC = hypotenus(lineA, lineB);
         const incline = Math.asin(lineB / lineC);
         const degIncline = radToDeg(incline);
         return {
-          lineA, lineB, lineC, incline, degIncline,
+          lineA, lineB, lineC, degIncline,
         };
       };
       const getCenterCoords = (item) => {
         const coordsParent = item.getBoundingClientRect();
         const centerParent = {
-          right: coordsParent.left + coordsParent.width / 2,
+          right: coordsParent.right - coordsParent.width / 2,
           left: coordsParent.right - coordsParent.width / 2,
           x: coordsParent.right - coordsParent.width / 2,
           y: coordsParent.top + coordsParent.height / 2 - 7.5,
@@ -99,6 +99,7 @@ export default {
         };
         return { start, end, isLeftChild };
       };
+
       Object.values(this.$refs).forEach((item) => {
         const centerParent = getCenterCoords(item[0].$el);
 
@@ -109,7 +110,7 @@ export default {
 
             Object.values(child.$el.children).forEach((arrow) => {
               if (arrow.className === 'arrow') {
-                const line = setLine(extremCoords.start, extremCoords.end);
+                const line = setLines(extremCoords.start, extremCoords.end);
 
                 line.degIncline = extremCoords.isLeftChild
                   ? line.degIncline : line.degIncline + 180;
@@ -119,7 +120,7 @@ export default {
 
                 arrow.style.transform = `rotate(${line.degIncline}deg)`;
                 arrow.style.position = 'absolute';
-                arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff, #fff, #fff,  #fff)';
+                arrow.style.background = 'linear-gradient(to left, #000, #000,  #000, #000, #000, #fff0, #fff0, #fff0,  #fff0)';
                 arrow.style.top = `calc(${line.lineB}px + 40%)`;
                 arrow.style.width = `calc(${line.lineC}px - 10px)`;
               }
@@ -137,7 +138,7 @@ export default {
 
                 Object.values(babyChild.children).forEach((arrowBabyChild) => {
                   if (arrowBabyChild.className === 'arrow') {
-                    const line = setLine(childExtremeCoords.start, childExtremeCoords.end);
+                    const line = setLines(childExtremeCoords.start, childExtremeCoords.end);
 
                     line.degIncline = childExtremeCoords.isLeftChild
                       ? line.degIncline : line.degIncline + 180;
@@ -153,7 +154,7 @@ export default {
                     }
 
                     arrowBabyChild.style.position = 'absolute';
-                    arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff)';
+                    arrowBabyChild.style.background = 'linear-gradient(to left, #000, #000,  #000,  #000, #000,  #fff0)';
                     arrowBabyChild.style.top = `${coordsBabyChild.height / 2}px`;
                     arrowBabyChild.style.width = `${Math.abs(line.lineC) / 5}px`;
                   }
