@@ -21,7 +21,7 @@
           </v-avatar>
         </template>
         <v-col v-for="(child, i) in item.children" max-height="200px" :key="i">
-          <v-card :class="child.type" max-height="200">
+          <v-card v-on:mouseover="info(child.name)" :class="child.type" max-height="200">
             <child :babyChild="child.children"/>
             <div class="arrow"></div>
             <v-list-item three-line>
@@ -62,6 +62,11 @@ export default {
   computed: {
     ...mapState('tree', ['serverUrl']),
   },
+  methods: {
+    info(name) {
+      console.log(name);
+    },
+  },
   watch: {
     items() {
       const halfScreen = screen.width / 2;
@@ -83,7 +88,7 @@ export default {
           right: coordsParent.right - coordsParent.width / 2,
           left: coordsParent.right - coordsParent.width / 2,
           x: coordsParent.right - coordsParent.width / 2,
-          y: coordsParent.top + coordsParent.height / 2 - 10.5,
+          y: coordsParent.top + coordsParent.height / 2 - 7.5,
         };
         return centerParent;
       };
@@ -281,5 +286,8 @@ export default {
   backdrop-filter: grayscale(1);
   padding: 10px;
   line-height: 39px;
+}
+.v-card__text.font-italic {
+  background: rgba(255, 255, 255, 0.18);
 }
 </style>
