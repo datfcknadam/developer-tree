@@ -30,6 +30,9 @@ export default {};
 .theme--light.v-card {
   max-height: initial;
 }
+.v-card__text {
+  padding: 16px;
+}
 .v-card__title {
   background: #62c2ff87;
   word-break: keep-all;
@@ -43,6 +46,11 @@ export default {};
   top: 25%;
   max-width: 25vw;
   max-height: 25vh;
+}
+.v-card:hover {
+  transform: scale(1.05);
+  border: 2px solid;
+  border-color: rgba(63, 0, 255, 0.38);
 }
 
 a {

@@ -41,7 +41,7 @@ h1{
   text-align: center;
 }
 .container {
-  background: linear-gradient(to top left, #6c7cfc, #98fce0a6);
+  background: linear-gradient(to top left, #8895ff, #86ffdda6);
   background-size: cover;
 }
 </style>

@@ -13,7 +13,7 @@
         <template v-slot:opposite>
           <span v-text="item.name"></span>
           <br />
-          <span class="font-italic" v-text="item.description"></span>
+          <span v-if="item.description" class="font-italic" v-text="item.description"></span>
         </template>
         <template v-if="item.image" v-slot:icon>
           <v-avatar>
@@ -275,6 +275,11 @@ export default {
   position: relative;
   margin-top: 10px;
   max-height: 50px;
-
+}
+.v-timeline-item__opposite > span{
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: grayscale(1);
+  padding: 10px;
+  line-height: 39px;
 }
 </style>
