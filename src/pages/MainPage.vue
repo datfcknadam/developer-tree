@@ -1,16 +1,16 @@
 <template>
   <v-content class="main-menu">
-    <v-card to="/back-page"  class="mx-auto">
+    <v-card to="/back-page" title="Click to open Backend tree"  class="mx-auto">
       <v-card-title>Backend</v-card-title>
       <v-card-text>Developer tree for Backend developers</v-card-text>
     </v-card>
-    <v-card to="/front-page" class="mx-auto">
+    <v-card to="/front-page" title="Click to open Frontend tree" class="mx-auto">
       <v-card-title>Fronted</v-card-title>
       <v-card-text>Developer tree for Fronted developers</v-card-text>
     </v-card>
-    <v-card to="/dev-page" class="mx-auto">
+    <v-card to="/dev-page" title="Click to open DevOps tree" class="mx-auto">
       <v-card-title>DevOps</v-card-title>
-      <v-card-text>Developer tree for DevOps developers</v-card-text>
+      <v-card-text>Developer tree for DevOps</v-card-text>
     </v-card>
   </v-content>
 </template>
@@ -38,6 +38,7 @@ export default {};
   word-break: keep-all;
   position: relative;
   bottom: initial;
+  padding-left: 10px;
 }
 .v-card {
   margin-bottom: 5vh;
@@ -46,13 +47,12 @@ export default {};
   top: 25%;
   max-width: 25vw;
   max-height: 25vh;
+  box-shadow:-3px 5px 10px #000000;
 }
 .v-card:hover {
   transform: scale(1.05);
-  border: 2px solid;
-  border-color: rgba(63, 0, 255, 0.38);
+  box-shadow: 0 0 20px #998dff;
 }
-
 a {
   text-decoration: none;
 }

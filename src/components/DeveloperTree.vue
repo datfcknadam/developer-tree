@@ -22,7 +22,7 @@
         </template>
         <v-col v-for="(child, i) in item.children" max-height="200px" :key="i">
           <v-card :class="child.type" max-height="200">
-            <Child :babyChild="child.children"/>
+            <child :babyChild="child.children"/>
             <div class="arrow"></div>
             <v-list-item three-line>
               <v-list-item-content class="align-self-start">
@@ -83,7 +83,7 @@ export default {
           right: coordsParent.right - coordsParent.width / 2,
           left: coordsParent.right - coordsParent.width / 2,
           x: coordsParent.right - coordsParent.width / 2,
-          y: coordsParent.top + coordsParent.height / 2 - 7.5,
+          y: coordsParent.top + coordsParent.height / 2 - 10.5,
         };
         return centerParent;
       };
@@ -144,9 +144,9 @@ export default {
                       ? line.degIncline : line.degIncline + 180;
 
                     if (childExtremeCoords.isLeftChild) {
-                      arrowBabyChild.style.right = `${coordsBabyChild.width - 1}px`;
+                      arrowBabyChild.style.right = `${coordsBabyChild.width + 1}px`;
                     } else {
-                      arrowBabyChild.style.left = `${coordsBabyChild.width - 1}px`;
+                      arrowBabyChild.style.left = `${coordsBabyChild.width + 1}px`;
                     }
 
                     if (line.degIncline !== 0) {

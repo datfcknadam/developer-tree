@@ -72,7 +72,7 @@
     {
       "name": "Practice what you learn!",
       "type": "whole",
-      "color": "yelow",
+      "color": "yellow",
       "description": "Excercise and make some command line applications with your picked language",
       "children": [{
           "name": "Sample Ideas",

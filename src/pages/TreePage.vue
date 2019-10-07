@@ -1,7 +1,7 @@
 <template>
   <v-container id="frontend">
     <h1>{{ title }}</h1>
-    <DeveloperTree :changePage="sectionName" :items="tree.children"/>
+    <developer-tree :changePage="sectionName" :items="tree.children"/>
     <h1>Keep learning!</h1>
   </v-container>
 </template>
