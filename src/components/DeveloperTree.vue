@@ -21,12 +21,16 @@
           </v-avatar>
         </template>
         <v-col v-for="(child, i) in item.children" max-height="200px" :key="i">
-          <v-card v-on:mouseover="info(child.name)" :class="child.type" max-height="200">
-            <child :babyChild="child.children"/>
+          <v-card :id="child.name + i" :class="child.type" max-height="200">
+            <child :babyChild="child.children" v-on:click="wikiInfo(child.name, i)"/>
             <div class="arrow"></div>
             <v-list-item three-line>
               <v-list-item-content class="align-self-start">
-                <v-card-title v-text="child.name" />
+                <v-card-title
+                  title="click for description"
+                  v-text="child.name"
+                  v-on:click="wikiInfo(child.name, i)"
+                  v-on:mouseout="disableWikiInfo" />
                 <v-divider v-if="child.description" class="mx-2" />
                 <v-card-text
                   v-if="child.description"
@@ -47,6 +51,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
 import Child from './Child/Child.vue';
 
 export default {
@@ -63,8 +68,50 @@ export default {
     ...mapState('tree', ['serverUrl']),
   },
   methods: {
-    info(name) {
-      console.log(name);
+    disableWikiInfo() {
+      const wiki = document.getElementById('id-wiki-card');
+      wiki.parentNode.removeChild(wiki);
+    },
+    wikiInfo(name, i) {
+      let reqURL = 'https://en.wikipedia.org/w/api.php?';
+      const params = {
+        origin: '*',
+        action: 'query',
+        generator: 'search',
+        gsrnamespace: 0,
+        exsentences: 1,
+        exlimit: 'max',
+        prop: 'extracts',
+        gsrlimit: 1,
+        gsrsearch: `${name}(language)`,
+        format: 'json',
+      };
+
+      Object.keys(params).forEach((key) => { reqURL += `&${key}=${params[key]}`; });
+
+      axios
+        .get(reqURL).then((response) => {
+          const responseArr = Object.values(response.data.query.pages)[0];
+          const parent = document.getElementById(name + i);
+          const ref = document.createElement('a');
+          const wikiCard = document.createElement('div');
+          const wikiCardText = document.createElement('div');
+
+          ref.setAttribute('href', `http://en.wikipedia.org/?curid=${responseArr.pageid}`);
+          wikiCard.setAttribute('class', 'v-card wiki-card theme--light');
+          wikiCard.setAttribute('id', 'id-wiki-card');
+          wikiCardText.setAttribute('div', ' v-card__text');
+
+          wikiCard.style.width = '70%';
+
+          parent.append(wikiCard);
+          wikiCard.append(ref, wikiCardText);
+          ref.append(wikiCardText);
+
+          wikiCardText.innerHTML = responseArr.extract;
+        }, (response) => {
+          console.log(response);
+        });
     },
   },
   watch: {
@@ -230,6 +277,7 @@ export default {
   .v-card__title {
     word-break: keep-all;
     position: relative;
+    cursor: pointer;
   }
   .v-card__text {
     padding: 4px;
@@ -290,4 +338,13 @@ export default {
 .v-card__text.font-italic {
   background: rgba(255, 255, 255, 0.18);
 }
+.wiki-card {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  z-index: 100;
+  padding: 16px;
+}
+
+
 </style>
