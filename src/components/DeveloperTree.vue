@@ -21,7 +21,12 @@
           </v-avatar>
         </template>
         <v-col v-for="(child, i) in item.children" max-height="200px" :key="i">
-          <v-card :id="child.name + i" :class="child.type" max-height="200">
+          <v-card
+            max-height="200"
+            :id="child.name + i"
+            :class="child.type"
+            v-on:mouseleave="disableWikiInfo"
+          >
             <child :babyChild="child.children" v-on:click="wikiInfo(child.name, i)"/>
             <div class="arrow"></div>
             <v-list-item three-line>
@@ -30,7 +35,7 @@
                   title="click for description"
                   v-text="child.name"
                   v-on:click="wikiInfo(child.name, i)"
-                  v-on:mouseout="disableWikiInfo" />
+                />
                 <v-divider v-if="child.description" class="mx-2" />
                 <v-card-text
                   v-if="child.description"
@@ -167,8 +172,11 @@ export default {
                 line.degIncline = extremCoords.isLeftChild
                   ? line.degIncline : line.degIncline + 180;
 
-                if (extremCoords.isLeftChild) arrow.style.right = `${coordsChild.width}px`;
-                else arrow.style.left = `${coordsChild.width + 8}px`;
+                if (extremCoords.isLeftChild) {
+                  arrow.style.right = `${coordsChild.width}px`;
+                } else {
+                  arrow.style.left = `${coordsChild.width + 8}px`;
+                }
 
                 arrow.style.transform = `rotate(${line.degIncline}deg)`;
                 arrow.style.position = 'absolute';
